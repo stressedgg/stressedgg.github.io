@@ -93,10 +93,10 @@
   <main>
     <section id="login">
       <!-- Login form -->
-      <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
-        <select>
+      <form action="login.php" method="post">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <select name="plan">
           <option value="free">Free Plan</option>
           <option value="paid">Paid Plan</option>
         </select>
@@ -104,14 +104,10 @@
       </form>
     </section>
     
-    <section id="videos">
-      <!-- Videos listing based on user's plan -->
-      <div class="video">
-        <h2>Video Title</h2>
-        <iframe src="video_url" width="640" height="360" frameborder="0" allowfullscreen></iframe>
-      </div>
-      
-      <!-- More video containers -->
+    <section id="welcome">
+      <h2>Welcome to the ZazaSecurity Video Portal</h2>
+      <p>Sign up to watch educational videos.</p>
+      <a href="signup.html">Sign Up</a>
     </section>
   </main>
   
