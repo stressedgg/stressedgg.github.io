@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Terminal Takedown - The Hacking Game!</h1>
-        <p>You start with $100. Use your hacking skills to earn more money.</p>
-        <div id="output"></div>
-        <button onclick="hack('website')">Hack a Website</button>
-        <button onclick="hack('individual')">Hack an Individual</button>
+    <div class="console">
+        <div class="output" id="output"></div>
+        <div class="input">
+            <button onclick="hack('website')">Hack a Website</button>
+            <button onclick="hack('individual')">Hack an Individual</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
