@@ -15,28 +15,59 @@ const individuals = {
 
 let playerMoney = 100;
 
-function hack(type) {
-    let target, moneyEarned;
-    if (type === 'website') {
-        target = getRandomProperty(websites);
-    } else if (type === 'individual') {
-        target = getRandomProperty(individuals);
-    }
+function showOutput(message) {
+    const output = document.getElementById('output');
+    output.textContent += message + '\n';
+    output.scrollTop = output.scrollHeight;
+}
 
-    moneyEarned = target ? target : 0;
+function hackWebsite() {
+    const website = getRandomProperty(websites);
+    const moneyEarned = websites[website];
+    showOutput(`Hacked ${website} and earned $${moneyEarned}.`);
     playerMoney += moneyEarned;
-    showOutput(`You hacked ${target || 'nothing'} and earned $${moneyEarned}.`);
+    showOutput(`Your current balance: $${playerMoney}`);
+}
+
+function hackIndividual() {
+    const individual = getRandomProperty(individuals);
+    const moneyEarned = individuals[individual];
+    showOutput(`Hacked ${individual} and earned $${moneyEarned}.`);
+    playerMoney += moneyEarned;
     showOutput(`Your current balance: $${playerMoney}`);
 }
 
 function getRandomProperty(obj) {
     const keys = Object.keys(obj);
-    return keys.length > 0 ? obj[keys[Math.floor(Math.random() * keys.length)]] : null;
+    return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : null;
 }
 
-function showOutput(message) {
-    const output = document.getElementById('output');
-    const p = document.createElement('p');
-    p.textContent = message;
-    output.appendChild(p);
+function startChallenge() {
+    showOutput('Solving the hacking challenge...');
+    // Add your custom hacking challenge here
+    setTimeout(() => {
+        showOutput('Challenge completed!');
+        // Award money for completing the challenge
+        playerMoney += 50;
+        showOutput('You earned $50 for completing the challenge.');
+        showOutput(`Your current balance: $${playerMoney}`);
+    }, 3000); // Simulating a 3-second challenge completion delay
 }
+
+function hack(type) {
+    if (type === 'website') {
+        hackWebsite();
+    } else if (type === 'individual') {
+        hackIndividual();
+    }
+
+    // Trigger a hacking challenge after every successful hack
+    startChallenge();
+}
+
+function main() {
+    showOutput('Welcome to Terminal Takedown - The Hacking Game!');
+    showOutput('You start with $100. Use your hacking skills to earn more money.');
+}
+
+main();
