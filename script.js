@@ -47,16 +47,48 @@ function getRandomProperty(obj) {
     return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : null;
 }
 
+function mathChallenge() {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+    const expression = `${num1} ${operator} ${num2}`;
+    const correctAnswer = eval(expression);
+
+    showOutput(`Solve the following math challenge: ${expression}`);
+    const userAnswer = prompt('Your answer:');
+    if (parseInt(userAnswer) === correctAnswer) {
+        showOutput('Correct! You earned $50 for solving the challenge.');
+        playerMoney += 50;
+    } else {
+        showOutput('Incorrect! The challenge is not completed.');
+    }
+    showOutput(`Your current balance: $${playerMoney}`);
+}
+
+function unscrambleChallenge() {
+    const words = ['programming', 'hacking', 'security', 'cyber', 'password'];
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+    const scrambledWord = randomWord.split('').sort(() => 0.5 - Math.random()).join('');
+
+    showOutput(`Unscramble the word: ${scrambledWord}`);
+    const userAnswer = prompt('Your answer:');
+    if (userAnswer.toLowerCase() === randomWord) {
+        showOutput('Correct! You earned $50 for solving the challenge.');
+        playerMoney += 50;
+    } else {
+        showOutput('Incorrect! The challenge is not completed.');
+    }
+    showOutput(`Your current balance: $${playerMoney}`);
+}
+
 function startChallenge() {
     showOutput('Solving the hacking challenge...');
-    // Add your custom hacking challenge here
-    setTimeout(() => {
-        showOutput('Challenge completed!');
-        // Award money for completing the challenge
-        playerMoney += 50;
-        showOutput('You earned $50 for completing the challenge.');
-        showOutput(`Your current balance: $${playerMoney}`);
-    }, 3000); // Simulating a 3-second challenge completion delay
+    // Simulate a 50% chance of a math challenge, otherwise unscramble challenge
+    if (Math.random() < 0.5) {
+        mathChallenge();
+    } else {
+        unscrambleChallenge();
+    }
 }
 
 function hack(type) {
