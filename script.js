@@ -14,6 +14,7 @@ const individuals = {
 };
 
 let playerMoney = 100;
+let isChallengeActive = false;
 
 function showOutput(message) {
     const output = document.getElementById('output');
@@ -22,8 +23,10 @@ function showOutput(message) {
 }
 
 function clearOutput() {
-    const output = document.getElementById('output');
-    output.textContent = '';
+    if (!isChallengeActive) {
+        const output = document.getElementById('output');
+        output.textContent = '';
+    }
 }
 
 function hackWebsite() {
@@ -53,16 +56,20 @@ function getRandomProperty(obj) {
 
 function memoryPuzzle(callback) {
     // Replace this with your own memory puzzle implementation
-    showOutput('Memory Puzzle: Memorize the sequence "1234".');
-    let userAnswer = '';
+    showOutput('Memory Puzzle: Memorize the sequence "1234" and enter it below.');
     const correctAnswer = '1234';
 
-    // Prompt player for input in the console
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+    input.focus();
+
     const inputHandler = (event) => {
-        const key = event.key;
-        if (key === 'Enter') {
+        const userAnswer = input.value.trim();
+        if (event.key === 'Enter') {
+            input.removeEventListener('keydown', inputHandler);
+            document.body.removeChild(input);
+
             // Validate the user's answer and call the callback
-            userAnswer = userAnswer.trim();
             if (userAnswer === correctAnswer) {
                 showOutput('Correct! You earned $50 for solving the memory puzzle.');
                 playerMoney += 50;
@@ -70,28 +77,31 @@ function memoryPuzzle(callback) {
                 showOutput('Incorrect! The puzzle is not completed.');
             }
             showOutput(`Your current balance: $${playerMoney}`);
-            document.removeEventListener('keydown', inputHandler);
+            isChallengeActive = false;
             callback();
-        } else {
-            userAnswer += key;
         }
     };
 
-    document.addEventListener('keydown', inputHandler);
+    isChallengeActive = true;
+    input.addEventListener('keydown', inputHandler);
 }
 
 function triviaQuestion(callback) {
     // Replace this with your own trivia question implementation
     showOutput('Trivia Question: What is the capital of France?');
-    let userAnswer = '';
     const correctAnswer = 'paris';
 
-    // Prompt player for input in the console
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+    input.focus();
+
     const inputHandler = (event) => {
-        const key = event.key;
-        if (key === 'Enter') {
+        const userAnswer = input.value.trim().toLowerCase();
+        if (event.key === 'Enter') {
+            input.removeEventListener('keydown', inputHandler);
+            document.body.removeChild(input);
+
             // Validate the user's answer and call the callback
-            userAnswer = userAnswer.trim().toLowerCase();
             if (userAnswer === correctAnswer) {
                 showOutput('Correct! You earned $50 for answering the trivia question.');
                 playerMoney += 50;
@@ -99,14 +109,13 @@ function triviaQuestion(callback) {
                 showOutput('Incorrect! The question is not answered correctly.');
             }
             showOutput(`Your current balance: $${playerMoney}`);
-            document.removeEventListener('keydown', inputHandler);
+            isChallengeActive = false;
             callback();
-        } else {
-            userAnswer += key;
         }
     };
 
-    document.addEventListener('keydown', inputHandler);
+    isChallengeActive = true;
+    input.addEventListener('keydown', inputHandler);
 }
 
 function startChallenge(individual, moneyEarned) {
