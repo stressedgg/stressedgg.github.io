@@ -146,7 +146,7 @@ function main() {
     showOutput('You start with $100. Use your hacking skills to earn more money.');
 
     // Clear the console every 4 seconds
-    setInterval(clearOutput, 4000);
+    setInterval(clearOutput, 10000);
 }
 
 main();
