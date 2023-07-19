@@ -47,47 +47,39 @@ function getRandomProperty(obj) {
     return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : null;
 }
 
-function mathChallenge() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
-    const expression = `${num1} ${operator} ${num2}`;
-    const correctAnswer = eval(expression);
-
-    showOutput(`Solve the following math challenge: ${expression}`);
-    const userAnswer = prompt('Your answer:');
-    if (parseInt(userAnswer) === correctAnswer) {
-        showOutput('Correct! You earned $50 for solving the challenge.');
+function memoryPuzzle() {
+    // Replace this with your own memory puzzle implementation
+    showOutput('Memory Puzzle: Memorize the sequence "1234".');
+    const userAnswer = prompt('Enter the memorized sequence:');
+    if (userAnswer === '1234') {
+        showOutput('Correct! You earned $50 for solving the memory puzzle.');
         playerMoney += 50;
     } else {
-        showOutput('Incorrect! The challenge is not completed.');
+        showOutput('Incorrect! The puzzle is not completed.');
     }
     showOutput(`Your current balance: $${playerMoney}`);
 }
 
-function unscrambleChallenge() {
-    const words = ['programming', 'hacking', 'security', 'cyber', 'password'];
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-    const scrambledWord = randomWord.split('').sort(() => 0.5 - Math.random()).join('');
-
-    showOutput(`Unscramble the word: ${scrambledWord}`);
+function triviaQuestion() {
+    // Replace this with your own trivia question implementation
+    showOutput('Trivia Question: What is the capital of France?');
     const userAnswer = prompt('Your answer:');
-    if (userAnswer.toLowerCase() === randomWord) {
-        showOutput('Correct! You earned $50 for solving the challenge.');
+    if (userAnswer.toLowerCase() === 'paris') {
+        showOutput('Correct! You earned $50 for answering the trivia question.');
         playerMoney += 50;
     } else {
-        showOutput('Incorrect! The challenge is not completed.');
+        showOutput('Incorrect! The question is not answered correctly.');
     }
     showOutput(`Your current balance: $${playerMoney}`);
 }
 
 function startChallenge() {
     showOutput('Solving the hacking challenge...');
-    // Simulate a 50% chance of a math challenge, otherwise unscramble challenge
+    // Simulate a 50% chance of a memory puzzle, otherwise a trivia question
     if (Math.random() < 0.5) {
-        mathChallenge();
+        memoryPuzzle();
     } else {
-        unscrambleChallenge();
+        triviaQuestion();
     }
 }
 
