@@ -37,9 +37,13 @@ function hackWebsite() {
 function hackIndividual() {
     const individual = getRandomProperty(individuals);
     const moneyEarned = individuals[individual];
-    showOutput(`Hacked ${individual} and earned $${moneyEarned}.`);
-    playerMoney += moneyEarned;
-    showOutput(`Your current balance: $${playerMoney}`);
+    showOutput(`Hacked ${individual}.`);
+    showOutput(`Now, solve the challenge to earn $${moneyEarned}.`);
+    showOutput('Enter the answer in the console below:');
+    showOutput('');
+
+    // Trigger a hacking challenge for the individual
+    startChallenge(individual, moneyEarned);
 }
 
 function getRandomProperty(obj) {
@@ -47,39 +51,76 @@ function getRandomProperty(obj) {
     return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : null;
 }
 
-function memoryPuzzle() {
+function memoryPuzzle(callback) {
     // Replace this with your own memory puzzle implementation
     showOutput('Memory Puzzle: Memorize the sequence "1234".');
-    const userAnswer = prompt('Enter the memorized sequence:');
-    if (userAnswer === '1234') {
-        showOutput('Correct! You earned $50 for solving the memory puzzle.');
-        playerMoney += 50;
-    } else {
-        showOutput('Incorrect! The puzzle is not completed.');
-    }
-    showOutput(`Your current balance: $${playerMoney}`);
+    let userAnswer = '';
+    const correctAnswer = '1234';
+
+    // Prompt player for input in the console
+    const inputHandler = (event) => {
+        const key = event.key;
+        if (key === 'Enter') {
+            // Validate the user's answer and call the callback
+            userAnswer = userAnswer.trim();
+            if (userAnswer === correctAnswer) {
+                showOutput('Correct! You earned $50 for solving the memory puzzle.');
+                playerMoney += 50;
+            } else {
+                showOutput('Incorrect! The puzzle is not completed.');
+            }
+            showOutput(`Your current balance: $${playerMoney}`);
+            document.removeEventListener('keydown', inputHandler);
+            callback();
+        } else {
+            userAnswer += key;
+        }
+    };
+
+    document.addEventListener('keydown', inputHandler);
 }
 
-function triviaQuestion() {
+function triviaQuestion(callback) {
     // Replace this with your own trivia question implementation
     showOutput('Trivia Question: What is the capital of France?');
-    const userAnswer = prompt('Your answer:');
-    if (userAnswer.toLowerCase() === 'paris') {
-        showOutput('Correct! You earned $50 for answering the trivia question.');
-        playerMoney += 50;
-    } else {
-        showOutput('Incorrect! The question is not answered correctly.');
-    }
-    showOutput(`Your current balance: $${playerMoney}`);
+    let userAnswer = '';
+    const correctAnswer = 'paris';
+
+    // Prompt player for input in the console
+    const inputHandler = (event) => {
+        const key = event.key;
+        if (key === 'Enter') {
+            // Validate the user's answer and call the callback
+            userAnswer = userAnswer.trim().toLowerCase();
+            if (userAnswer === correctAnswer) {
+                showOutput('Correct! You earned $50 for answering the trivia question.');
+                playerMoney += 50;
+            } else {
+                showOutput('Incorrect! The question is not answered correctly.');
+            }
+            showOutput(`Your current balance: $${playerMoney}`);
+            document.removeEventListener('keydown', inputHandler);
+            callback();
+        } else {
+            userAnswer += key;
+        }
+    };
+
+    document.addEventListener('keydown', inputHandler);
 }
 
-function startChallenge() {
-    showOutput('Solving the hacking challenge...');
+function startChallenge(individual, moneyEarned) {
     // Simulate a 50% chance of a memory puzzle, otherwise a trivia question
     if (Math.random() < 0.5) {
-        memoryPuzzle();
+        memoryPuzzle(() => {
+            showOutput(`Congratulations! You earned $${moneyEarned} for hacking ${individual}.`);
+            showOutput(`Your current balance: $${playerMoney}`);
+        });
     } else {
-        triviaQuestion();
+        triviaQuestion(() => {
+            showOutput(`Congratulations! You earned $${moneyEarned} for hacking ${individual}.`);
+            showOutput(`Your current balance: $${playerMoney}`);
+        });
     }
 }
 
@@ -89,9 +130,6 @@ function hack(type) {
     } else if (type === 'individual') {
         hackIndividual();
     }
-
-    // Trigger a hacking challenge after every successful hack
-    startChallenge();
 }
 
 function main() {
