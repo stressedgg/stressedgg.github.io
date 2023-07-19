@@ -21,6 +21,11 @@ function showOutput(message) {
     output.scrollTop = output.scrollHeight;
 }
 
+function clearOutput() {
+    const output = document.getElementById('output');
+    output.textContent = '';
+}
+
 function hackWebsite() {
     const website = getRandomProperty(websites);
     const moneyEarned = websites[website];
@@ -68,6 +73,9 @@ function hack(type) {
 function main() {
     showOutput('Welcome to Terminal Takedown - The Hacking Game!');
     showOutput('You start with $100. Use your hacking skills to earn more money.');
+
+    // Clear the console every 4 seconds
+    setInterval(clearOutput, 4000);
 }
 
 main();
