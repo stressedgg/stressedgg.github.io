@@ -10,7 +10,7 @@ body {
 .console {
     width: 500px;
     height: 300px;
-    background-color: #111;
+    background-color: #000;
     border: 2px solid #0F0;
     margin: 50px auto;
     padding: 10px;
@@ -24,6 +24,10 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word;
     margin-bottom: 10px;
+    background-color: #000;
+    color: #0F0;
+    padding: 10px;
+    border: 1px solid #0F0;
 }
 
 .input {
