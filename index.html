@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Online Casino Blackjack</h1>
+        <h1>Zaza Online Casino Blackjack</h1>
     </header>
 
     <main>
@@ -23,6 +23,7 @@
             <p id="player-hand">Player Hand: </p>
             <p id="dealer-hand">Dealer Hand: </p>
             <p id="result"></p>
+            <p id="dealer-balance">Dealer Balance: $1000</p>
         </div>
 
         <div class="controls">
@@ -36,7 +37,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Your Casino Name. All rights reserved.</p>
+        <p>&copy; 2023 Zaza Casino. All rights reserved.</p>
     </footer>
 
     <script>
@@ -146,6 +147,9 @@
                 resultText = "You busted. Dealer wins!";
             } else if (dealerValue > 21) {
                 resultText = "Dealer busted. You win!";
+                // Update balance when player wins
+                totalAmount += currentBet * 2;
+                document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
             } else if (playerValue > dealerValue) {
                 resultText = "You win!";
                 // Update balance when player wins
@@ -155,6 +159,9 @@
                 resultText = "Dealer wins!";
             } else {
                 resultText = "It's a tie!";
+                // Refund the bet amount for a tie
+                totalAmount += currentBet;
+                document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
             }
 
             document.getElementById("result").textContent = resultText;
@@ -166,6 +173,7 @@
             betPlaced = false;
             document.getElementById("bet-amount").disabled = false;
             document.getElementById("bet-amount").value = "";
+            updateDealerBalance();
         }
 
         // Additional controls logic
@@ -199,6 +207,9 @@
             document.getElementById("stand-button").disabled = true;
             deal();
         }
+
+        // Update dealer balance after loading the page
+        updateDealerBalance();
     </script>
 </body>
 </html>
