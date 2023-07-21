@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zaza Casino Blackjack</title>
+    <title>Online Casino Blackjack</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Zaza Casino Blackjack</h1>
+        <h1>Online Casino Blackjack</h1>
     </header>
 
     <main>
@@ -37,7 +37,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Zaza Casino. All rights reserved.</p>
+        <p>&copy; 2023 Your Casino Name. All rights reserved.</p>
     </footer>
 
     <script>
@@ -142,29 +142,33 @@
             document.getElementById("dealer-total").textContent = "Dealer Total: " + dealerValue;
         }
 
+        function revealDealerHand() {
+            document.getElementById("dealer-hand").textContent = "Dealer Hand: " + dealerHand.join(", ");
+        }
+
         function endGame() {
             displayHands();
             const playerValue = calculateHandValue(playerHand);
             const dealerValue = calculateHandValue(dealerHand);
+
+            revealDealerHand();
+            displayDealerTotal();
 
             let resultText = "";
             if (playerValue > 21) {
                 resultText = "You busted. Dealer wins!";
             } else if (dealerValue > 21) {
                 resultText = "Dealer busted. You win!";
-                // Update balance when player wins
                 totalAmount += currentBet * 2;
                 document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
             } else if (playerValue > dealerValue) {
                 resultText = "You win!";
-                // Update balance when player wins
                 totalAmount += currentBet * 2;
                 document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
             } else if (playerValue < dealerValue) {
                 resultText = "Dealer wins!";
             } else {
                 resultText = "It's a tie!";
-                // Refund the bet amount for a tie
                 totalAmount += currentBet;
                 document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
             }
@@ -174,7 +178,6 @@
             document.getElementById("hit-button").disabled = true;
             document.getElementById("stand-button").disabled = true;
 
-            // Reset the bet status and the bet input
             betPlaced = false;
             document.getElementById("bet-amount").disabled = false;
             document.getElementById("bet-amount").value = "";
@@ -202,7 +205,6 @@
                 return;
             }
 
-            // Reset the game for a new round
             playerHand = [];
             dealerHand = [];
             document.getElementById("result").textContent = "";
@@ -213,7 +215,6 @@
             deal();
         }
 
-        // Update dealer balance after loading the page
         updateDealerBalance();
     </script>
 </body>
