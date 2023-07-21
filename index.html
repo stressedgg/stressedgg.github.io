@@ -15,11 +15,11 @@
         <div class="table">
             <h2>Blackjack Table</h2>
             <p>
-                <strong>Instructions:</strong> Press "Deal" to start the game. Press "Hit" to get another card, or "Stand" to stop drawing cards.
+                <strong>Instructions:</strong> Place a bet, then press "Deal" to start the game. Press "Hit" to get another card, or "Stand" to stop drawing cards.
             </p>
-            <button onclick="deal()">Deal</button>
-            <button onclick="hit()">Hit</button>
-            <button onclick="stand()">Stand</button>
+            <button onclick="deal()" id="deal-button">Deal</button>
+            <button onclick="hit()" id="hit-button">Hit</button>
+            <button onclick="stand()" id="stand-button">Stand</button>
             <p id="player-hand">Player Hand: </p>
             <p id="dealer-hand">Dealer Hand: </p>
             <p id="result"></p>
@@ -31,20 +31,25 @@
             <input type="number" id="bet-amount" min="1" step="1">
             <button onclick="placeBet()">Place Bet</button>
             <button onclick="newRound()">New Round</button>
+            <p id="total-amount">Total Amount: $1000</p>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2023 Your Casino Name. All rights reserved.</p>
+        <p>&copy; 2023 Zaza Casino. All rights reserved.</p>
     </footer>
 
     <script>
+        // Game logic
         const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
         const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
         let deck = [];
         let playerHand = [];
         let dealerHand = [];
+        let totalAmount = 1000;
+        let currentBet = 0;
+        let betPlaced = false;
 
         function createDeck() {
             for (let suit of suits) {
@@ -62,12 +67,20 @@
         }
 
         function deal() {
+            if (!betPlaced) {
+                alert("Please place a bet before starting the game.");
+                return;
+            }
+
             createDeck();
             shuffleDeck();
             playerHand = [drawCard(), drawCard()];
             dealerHand = [drawCard(), drawCard()];
             displayHands();
             document.getElementById("result").textContent = "";
+            document.getElementById("deal-button").disabled = true;
+            document.getElementById("hit-button").disabled = false;
+            document.getElementById("stand-button").disabled = false;
         }
 
         function drawCard() {
@@ -142,17 +155,46 @@
             }
 
             document.getElementById("result").textContent = resultText;
-        }
+            document.getElementById("deal-button").disabled = false;
+            document.getElementById("hit-button").disabled = true;
+            document.getElementById("stand-button").disabled = true;
 
-                function newRound() {
-            // Add your logic to reset the game for a new round, including resetting player and dealer hands, bet amount, etc.
-            document.getElementById("result").textContent = "";
+            // Reset the bet status and the bet input
+            betPlaced = false;
+            document.getElementById("bet-amount").disabled = false;
             document.getElementById("bet-amount").value = "";
         }
 
-                function placeBet() {
+        // Additional controls logic:
+        function placeBet() {
             const betAmount = parseInt(document.getElementById("bet-amount").value);
-            // Add your logic to handle the bet amount, such as deducting it from the player's balance, etc.
+            if (isNaN(betAmount) || betAmount <= 0 || betAmount > totalAmount) {
+                alert("Invalid bet amount. Please enter a valid bet between 1 and " + totalAmount + ".");
+                return;
+            }
+
+            currentBet = betAmount;
+            totalAmount -= currentBet;
+            document.getElementById("total-amount").textContent = "Total Amount: $" + totalAmount;
+            betPlaced = true;
+            document.getElementById("bet-amount").disabled = true;
+        }
+
+        function newRound() {
+            if (!betPlaced) {
+                alert("Please place a bet before starting the new round.");
+                return;
+            }
+
+            // Reset the game for a new round
+            playerHand = [];
+            dealerHand = [];
+            document.getElementById("result").textContent = "";
+            document.getElementById("bet-amount").value = "";
+            document.getElementById("deal-button").disabled = false;
+            document.getElementById("hit-button").disabled = true;
+            document.getElementById("stand-button").disabled = true;
+            deal();
         }
     </script>
 </body>
