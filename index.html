@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Casino Blackjack</title>
+    <title>Zaza Casino Blackjack</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Zaza Online Casino Blackjack</h1>
+        <h1>Zaza Casino Blackjack</h1>
     </header>
 
     <main>
@@ -23,7 +23,7 @@
             <p id="player-hand">Player Hand: </p>
             <p id="dealer-hand">Dealer Hand: </p>
             <p id="result"></p>
-            <p id="dealer-balance">Dealer Balance: $1000</p>
+            <p id="dealer-total">Dealer Total: </p>
         </div>
 
         <div class="controls">
@@ -135,6 +135,11 @@
                 dealerHand.push(drawCard());
             }
             endGame();
+        }
+
+        function displayDealerTotal() {
+            const dealerValue = calculateHandValue(dealerHand);
+            document.getElementById("dealer-total").textContent = "Dealer Total: " + dealerValue;
         }
 
         function endGame() {
