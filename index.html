@@ -13,16 +13,147 @@
 
     <main>
         <div class="table">
-            <!-- Blackjack table layout goes here -->
+            <h2>Blackjack Table</h2>
+            <p>
+                <strong>Instructions:</strong> Press "Deal" to start the game. Press "Hit" to get another card, or "Stand" to stop drawing cards.
+            </p>
+            <button onclick="deal()">Deal</button>
+            <button onclick="hit()">Hit</button>
+            <button onclick="stand()">Stand</button>
+            <p id="player-hand">Player Hand: </p>
+            <p id="dealer-hand">Dealer Hand: </p>
+            <p id="result"></p>
         </div>
 
         <div class="controls">
-            <!-- Game controls go here (e.g., hit, stand, bet, etc.) -->
+            <h2>Controls</h2>
+            <label for="bet-amount">Bet Amount:</label>
+            <input type="number" id="bet-amount" min="1" step="1">
+            <button onclick="placeBet()">Place Bet</button>
+            <button onclick="newRound()">New Round</button>
         </div>
     </main>
 
     <footer>
         <p>&copy; 2023 Your Casino Name. All rights reserved.</p>
     </footer>
+
+    <script>
+        const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+        const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+        let deck = [];
+        let playerHand = [];
+        let dealerHand = [];
+
+        function createDeck() {
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    deck.push(`${rank} of ${suit}`);
+                }
+            }
+        }
+
+        function shuffleDeck() {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function deal() {
+            createDeck();
+            shuffleDeck();
+            playerHand = [drawCard(), drawCard()];
+            dealerHand = [drawCard(), drawCard()];
+            displayHands();
+            document.getElementById("result").textContent = "";
+        }
+
+        function drawCard() {
+            return deck.pop();
+        }
+
+        function getCardValue(card) {
+            const rank = card.split(" ")[0];
+            if (["K", "Q", "J"].includes(rank)) {
+                return 10;
+            } else if (rank === "A") {
+                return 11;
+            } else {
+                return parseInt(rank);
+            }
+        }
+
+        function calculateHandValue(hand) {
+            let value = 0;
+            let aces = 0;
+            for (let card of hand) {
+                const cardValue = getCardValue(card);
+                value += cardValue;
+                if (cardValue === 11) {
+                    aces++;
+                }
+            }
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+            return value;
+        }
+
+        function displayHands() {
+            document.getElementById("player-hand").textContent = "Player Hand: " + playerHand.join(", ");
+            document.getElementById("dealer-hand").textContent = "Dealer Hand: " + dealerHand[0] + ", " + "???";
+        }
+
+        function hit() {
+            playerHand.push(drawCard());
+            displayHands();
+
+            if (calculateHandValue(playerHand) > 21) {
+                endGame();
+            }
+        }
+
+        function stand() {
+            while (calculateHandValue(dealerHand) < 17) {
+                dealerHand.push(drawCard());
+            }
+            endGame();
+        }
+
+        function endGame() {
+            displayHands();
+            const playerValue = calculateHandValue(playerHand);
+            const dealerValue = calculateHandValue(dealerHand);
+
+            let resultText = "";
+            if (playerValue > 21) {
+                resultText = "You busted. Dealer wins!";
+            } else if (dealerValue > 21) {
+                resultText = "Dealer busted. You win!";
+            } else if (playerValue > dealerValue) {
+                resultText = "You win!";
+            } else if (playerValue < dealerValue) {
+                resultText = "Dealer wins!";
+            } else {
+                resultText = "It's a tie!";
+            }
+
+            document.getElementById("result").textContent = resultText;
+        }
+
+                function newRound() {
+            // Add your logic to reset the game for a new round, including resetting player and dealer hands, bet amount, etc.
+            document.getElementById("result").textContent = "";
+            document.getElementById("bet-amount").value = "";
+        }
+
+                function placeBet() {
+            const betAmount = parseInt(document.getElementById("bet-amount").value);
+            // Add your logic to handle the bet amount, such as deducting it from the player's balance, etc.
+        }
+    </script>
 </body>
 </html>
