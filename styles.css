@@ -1,0 +1,57 @@
+/* Reset some default styles to provide a clean slate */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    color: #fff;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.table {
+    background-color: #00cc66;
+    border-radius: 10px;
+    padding: 20px;
+    width: 60%;
+    min-height: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 35%;
+    min-height: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+}
+
+footer p {
+    color: #fff;
+}
