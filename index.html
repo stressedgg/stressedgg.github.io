@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Online Casino Blackjack</h1>
+        <h1>Zaza Online Casino Blackjack</h1>
     </header>
 
     <main>
@@ -116,7 +116,7 @@
         }
 
         function displayHands() {
-            document.getElementById("player-hand").textContent = "Player Hand: " + playerHand.join(", ");
+            document.getElementById("player-hand").textContent = "Player Hand (" + calculateHandValue(playerHand) + "): " + playerHand.join(", ");
             document.getElementById("dealer-hand").textContent = "Dealer Hand: " + dealerHand[0] + ", " + "???";
         }
 
@@ -165,7 +165,7 @@
             document.getElementById("bet-amount").value = "";
         }
 
-        // Additional controls logic:
+        // Additional controls logic
         function placeBet() {
             const betAmount = parseInt(document.getElementById("bet-amount").value);
             if (isNaN(betAmount) || betAmount <= 0 || betAmount > totalAmount) {
